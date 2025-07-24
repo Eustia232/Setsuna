@@ -9,4 +9,6 @@ public class LoginVO {
 
     private String token;
 
+    boolean firstLogin;
+
 }

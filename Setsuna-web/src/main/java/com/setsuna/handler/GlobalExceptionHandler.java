@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
         log.error("自定义异常:{},异常原因:{}", e
                 .getClass()
                 .getName(), e.getMessage());
-        log.error("", e);
+        log.debug("", e);
         return ResponseEntity
                 .status(e.getCode())
                 .body(Result.error(e.getMessage()));

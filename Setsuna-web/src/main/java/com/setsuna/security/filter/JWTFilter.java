@@ -1,6 +1,8 @@
 package com.setsuna.security.filter;
 
 import com.setsuna.utils.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +30,19 @@ public class JWTFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             String jwt = token.replace("Bearer ", "");
-            String username = jwtUtil.parseJWT(jwt);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(username, null, List.of());
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(usernamePasswordAuthenticationToken);
+            String username = null;
+            try {
+                username = jwtUtil.parseJWT(jwt);
+            } catch (ExpiredJwtException | SignatureException ignored) {
+            }
+            if (username != null) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(username, null, List.of());
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(usernamePasswordAuthenticationToken);
+            }
+
         }
         filterChain.doFilter(request, response);
     }

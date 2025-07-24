@@ -27,13 +27,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/hello/**")
                         .permitAll()
-                        .requestMatchers("/auth/login")
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/me", "/oauth2/**", "/login/**")
+                        .permitAll()
+                        .requestMatchers("/error")
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .permitAll())
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("http://localhost:8080/auth/login/callback", true))
                 //token检验。如果通过，会在Context中setAuthenticated为true。
                 .addFilterBefore(nothingFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint));
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
+        ;
         return http.build();
     }
 

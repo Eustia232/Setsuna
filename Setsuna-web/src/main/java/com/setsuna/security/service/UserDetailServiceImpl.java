@@ -1,6 +1,8 @@
 package com.setsuna.security.service;
 
+import com.setsuna.constants.MessageConstant;
 import com.setsuna.entity.User;
+import com.setsuna.exception.UnAuthorizedException;
 import com.setsuna.mapper.UserMapper;
 import com.setsuna.security.entity.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.selectUserByUserName(username);
+        User user = userMapper.selectUserByUsername(username);
         if (user == null) {
-            return new LoginUser();
+            throw new UnAuthorizedException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
         return new LoginUser(user.getId(), user.getUsername(), user.getPassword());
     }

@@ -22,8 +22,18 @@ public class Result<T> {
         this.data = data;
     }
 
+    public Result(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
     public static <T> Result<T> success(T data) {
         return new Result<>(CodeConstant.SUCCESS_CODE, data);
+    }
+
+    public static <T> Result<T> success(String message, T data) {
+        return new Result<>(CodeConstant.SUCCESS_CODE, message, data);
     }
 
     public static Result<Void> error(String message) {

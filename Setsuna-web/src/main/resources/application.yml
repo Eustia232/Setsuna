@@ -1,12 +1,26 @@
+setsuna:
+  file-path: D:/Resources/Codes/static/Setsuna
+
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/Setsuna?useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/Setsuna?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
     password: wz20040607
     driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liwaagILRjafpeW0
+            client-secret: c23f9c4e2ccd52966f9697b4dad640d563b8ebbc
+            redirect-uri: "http://localhost:8080/login/oauth2/code/github"
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.setsuna.**.entity
 jwt:
   secret: "MyLoveForKotoriMyLoveForKotoriMyLoveForKotori"
-  expire: 1s
+  expire: 2h
+
