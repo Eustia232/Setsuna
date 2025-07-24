@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>登录成功</title>
+</head>
+<body>
+<script>
+    var data = __LOGIN_VO_JSON__;
+    window.opener && window.opener.postMessage(data, 'http://localhost:5173');
+    window.close();
+</script>
+<p>登录成功，窗口即将关闭...</p>
+</body>
+</html>
